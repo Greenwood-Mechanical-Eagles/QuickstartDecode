@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Constants {
 
   public static FollowerConstants followerConstants = new FollowerConstants()
-    .mass(13)
+    .mass(21.4)
     .forwardZeroPowerAcceleration(-41.278)
     .lateralZeroPowerAcceleration(-59.7819)
     .useSecondaryTranslationalPIDF(false)
@@ -32,22 +32,16 @@ public class Constants {
     .xVelocity(57.8741)
     .yVelocity(52.295);
 
-  public static ThreeWheelConstants localizerConstants =
-    new ThreeWheelConstants()
-      .forwardTicksToInches(.001989436789)
-      .strafeTicksToInches(.001989436789)
-      .turnTicksToInches(.001989436789)
-      .leftPodY(1)
-      .rightPodY(-1)
-      .strafePodX(-2.5)
-      .leftEncoder_HardwareMapName("frontLeft")
-      .rightEncoder_HardwareMapName("backRight")
-      .strafeEncoder_HardwareMapName("frontRight")
-      .leftEncoderDirection(Encoder.REVERSE)
-      .rightEncoderDirection(Encoder.REVERSE)
-      .strafeEncoderDirection(Encoder.FORWARD);
+  public static PinpointConstants localizerConstants = new PinpointConstants()
+            .forwardPodY(-2.5)
+            .strafePodX(4.5)
+            .distanceUnit(DistanceUnit.INCH)
+            .hardwareMapName("pinpoint")
+            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-    public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
+   /* public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
             .rightFrontMotorName("frontRight")
             .rightRearMotorName("backRight")
             .leftRearMotorName("backLeft")
@@ -57,7 +51,8 @@ public class Constants {
             .rightFrontEncoderDirection(Encoder.REVERSE)
             .rightRearEncoderDirection(Encoder.REVERSE)
             .robotWidth(10.5)
-            .robotLength(12.25) //may be bad; fix later
+            .robotLength(12.25) //may be bad; fix later 
+            */
 
   public static PathConstraints pathConstraints = new PathConstraints(
     0.995,
@@ -69,8 +64,8 @@ public class Constants {
   public static Follower createFollower(HardwareMap hardwareMap) {
     return new FollowerBuilder(followerConstants, hardwareMap)
       .mecanumDrivetrain(driveConstants)
-      .driveEncoderLocalizer(localizerConstants)
-      .threeWheelLocalizer(localizerConstants)
+      //.driveEncoderLocalizer(localizerConstants)
+      .pinpointLocalizer(localizerConstants)
       .pathConstraints(pathConstraints)
       .build();
   }
